@@ -85,3 +85,27 @@ Para soporte técnico, colaboración académica o implementación de procesos si
 - **Diana Millan** – [millanorduzdiana@gmail.com](mailto:millanorduzdiana@gmail.com)  
 - **David Valbuena** – [dlvalbuenag@udistrital.edu.co](mailto:dlvalbuenag@udistrital.edu.co)  
 - **Jaime Ussa** – [jeussag@udistrital.edu.co](mailto:jeussag@udistrital.edu.co)
+
+---
+
+### Derechos de uso y citación
+
+Este repositorio contiene resultados del proyecto realizado en el marco del convenio entre la Universidad Distrital Francisco José de Caldas y la Empresa de Aseo de Cartagena (EPA Cartagena), conforme al Decreto 1980 de 2024 y la Resolución EPA-RES-00599-2024, que reglamentan el manejo, tratamiento y uso de la información geoespacial generada en el contexto del PGIRS de Cartagena.
+
+Toda la información contenida en este repositorio puede ser consultada libremente para fines académicos, técnicos y de investigación, siempre y cuando se cite adecuadamente.
+
+**Citación recomendada**:  
+Ussa, J., Valbuena, D., & Millan, D. (2025). *Identificación de árboles urbanos mediante IA para optimizar su mantenimiento y función en ciudades tropicales costeras*. Convenio Universidad Distrital - EPA Cartagena.
+
+Este trabajo está publicado bajo la siguiente licencia:
+
+[![Licencia Creative Commons](https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es)
+
+**Licencia CC BY-NC-ND 4.0**  
+Este repositorio se encuentra bajo una Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional. Esto implica que puedes compartir el contenido (copiar y redistribuir el material en cualquier medio o formato) siempre que:
+
+- Des crédito apropiado.
+- No lo utilices para fines comerciales.
+- No generes obras derivadas.
+
+Para usos distintos, debe obtenerse una autorización explícita de los autores.
