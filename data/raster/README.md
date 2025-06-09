@@ -1,18 +1,18 @@
-# Datos Ráster
+# Raster Data
 
-Este directorio contiene los enlaces a los archivos ráster utilizados en el proyecto de identificación de árboles urbanos.
+This directory contains links to the raster files used in the urban tree identification project.
 
-## Archivos Disponibles
+## Available Files
 
-### Imagen NIR (Falso Color)
-- **Descripción**: Composición de falso color con NIR en el canal rojo, que realza la visibilidad de la vegetación.
-- **Enlace**: [Descargar NIR](https://drive.google.com/file/d/10zsH64-T7i876ISIcmSHXpz-J46fJePa/view?usp=drive_link)
+### NIR Image (False Color)
+- **Description**: False color composition with NIR in the red channel, which enhances vegetation visibility.
+- **Link**: [Download NIR](https://drive.google.com/file/d/10zsH64-T7i876ISIcmSHXpz-J46fJePa/view?usp=drive_link)
 
-### Imagen RGB (Colores Verdaderos)
-- **Descripción**: Composición de colores verdaderos (RGB) de la zona de estudio.
-- **Enlace**: [Descargar RGB](https://drive.google.com/file/d/1mJFQX0LG3bRR24nBjJnliTBQmaeMsog8/view?usp=drive_link)
+### RGB Image (True Color)
+- **Description**: True color (RGB) composition of the study area.
+- **Link**: [Download RGB](https://drive.google.com/file/d/1mJFQX0LG3bRR24nBjJnliTBQmaeMsog8/view?usp=drive_link)
 
-## Notas
-- Los archivos son de gran tamaño y requieren una conexión estable a internet para su descarga.
-- Se recomienda utilizar estos datos únicamente para fines académicos y de investigación.
-- Para más información sobre el procesamiento y uso de estos datos, consulte el [README principal](../../README.md) del proyecto. 
+## Notes
+- The files are large and require a stable internet connection for download.
+- It is recommended to use these data only for academic and research purposes.
+- For more information about the processing and use of these data, please refer to the [main README](../../README.md) of the project. 

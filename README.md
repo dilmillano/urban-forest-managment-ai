@@ -1,86 +1,85 @@
-[![Mapa interactivo](mapa_init.jpg)](https://ee-millanorduzdiana.projects.earthengine.app/view/urbantreedetectioncnn)
+[![Interactive Map](mapa_init.jpg)](https://ee-millanorduzdiana.projects.earthengine.app/view/urbantreedetectioncnn)
 
-# Metodología para la Identificación de Árboles y Palmas Urbanas mediante Deep Learning
+# Methodology for Urban Trees and Palms Identification using Deep Learning
 
-## Flujo General de Procesamiento
+## General Processing Flow
 
-![Flujograma](docs/Flujograma.jpg)
+![Flowchart](docs/Flujograma.jpg)
 
-Las imágenes se procesaron en 5 pasos principales:
-1. **Procesamiento de la imagen - Insumo Principal**
-2. **Diseño de Muestreo**
-3. **Entrenamiento, Evaluación y Adaptación del Modelo**
-4. **Comparación de Modelos**
-5. **Adaptación del modelo al entorno SIG (QGIS/ONNX)**
-6. **Resultados y Visualización**
+Images were processed in 5 main steps:
+1. **Image Processing - Main Input**
+2. **Sampling Design**
+3. **Model Training, Evaluation, and Adaptation**
+4. **Model Comparison**
+5. **Model Adaptation to GIS Environment (QGIS/ONNX)**
+6. **Results and Visualization**
 
-## Insumo Principal
-El insumo base del proyecto corresponde a dos ortofotos generadas a partir de imágenes procesadas bajo estrictos controles de calidad radiométrica y geométrica. El control radiométrico incluyó la revisión de histogramas, niveles de saturación (porcentaje de blancos y negros), así como el cálculo de estadísticas básicas como la media y la desviación estándar. Además, se garantizó la continuidad tonal entre hojas adyacentes para evitar efectos de teselado. Por su parte, el control geométrico se llevó a cabo mediante puntos de control bien definidos, midiendo la discrepancia entre coordenadas originales y medidas sobre las ortofotos, y calculando errores medios cuadrados en planimetría, en cumplimiento con las resoluciones 471 y 529 de 2020 del IGAC.
+## Main Input
+The base input of the project consists of two orthophotos generated from images processed under strict radiometric and geometric quality controls. Radiometric control included histogram review, saturation levels (percentage of whites and blacks), as well as calculation of basic statistics such as mean and standard deviation. Additionally, tonal continuity between adjacent sheets was ensured to avoid tiling effects. Geometric control was carried out through well-defined control points, measuring the discrepancy between original coordinates and measurements on orthophotos, and calculating mean square errors in planimetry, in compliance with IGAC resolutions 471 and 529 of 2020.
 
-Los archivos ráster utilizados en este proyecto se encuentran en la ruta [`data/raster`](./data/raster). Estos incluyen:
-- **RGB (colores verdaderos)**
-- **Falso color (NIR en el canal rojo), La composición NIR realza la visibilidad de la vegetación.** 
+The raster files used in this project are located in the [`data/raster`](./data/raster) path. These include:
+- **RGB (true colors)**
+- **False color (NIR in red channel), The NIR composition enhances vegetation visibility.**
 
-## Diseño de Muestreo
-- Se superpuso una rejilla de 10,679 secciones de 640x640 px (57,6m x 57,6m).
-- Se realizó un pre-muestreo aleatorio de 30 rejillas para cuantificar árboles y palmas.
-- Se determinó que se requerían 199 secciones para capturar la variabilidad ecológica.
-- Etiquetado de 199 cuadrantes en Roboflow.
-- División de datos: 80% entrenamiento (159), 20% validación (40).
-- Aumento de datos mediante saturación y rotación, resultando en 477 imágenes para entrenamiento.
-- Selección de 22 secciones para pruebas manuales.
+## Sampling Design
+- A grid of 10,679 sections of 640x640 px (57.6m x 57.6m) was overlaid.
+- A random pre-sampling of 30 grids was performed to quantify trees and palms.
+- It was determined that 199 sections were required to capture ecological variability.
+- Labeling of 199 quadrants in Roboflow.
+- Data split: 80% training (159), 20% validation (40).
+- Data augmentation through saturation and rotation, resulting in 477 training images.
+- Selection of 22 sections for manual testing.
 
-![Muestreo](docs/Muestreo.jpg)
+![Sampling](docs/Muestreo.jpg)
 
-## Entrenamiento, Evaluación y Adaptación del Modelo
-- Entrenamiento en Google Colab usando YOLOv7 preentrenado.
-- Ajuste de hiperparámetros: función de pérdida, épocas, optimizadores, número de clases.
-- Evaluación con métricas: precisión, recall, F1-score, accuracy.
-- Conversión del modelo a formato ONNX para integración con QGIS (Deepness plugin).
+## Model Training, Evaluation, and Adaptation
+- Training in Google Colab using pre-trained YOLOv7.
+- Hyperparameter tuning: loss function, epochs, optimizers, number of classes.
+- Evaluation with metrics: precision, recall, F1-score, accuracy.
+- Model conversion to ONNX format for QGIS integration (Deepness plugin).
 
-Las etiquetas utilizadas para el entrenamiento de los modelos están disponibles en la ruta [`data/labels`](./data/labels), organizadas en subcarpetas para NIR y RGB:
-- **Formato COCO:** Compatible con modelos YOLO y otros frameworks de detección de objetos.
-- **Formato OpenAI:** Útil para modelos de visión desarrollados en entornos OpenAI.
-- **Formato TensorFlow:** Para modelos desarrollados en TensorFlow y Keras.
-Estas etiquetas pueden ser reutilizadas para nuevos entrenamientos o pruebas de modelos.
+The labels used for model training are available in the [`data/labels`](./data/labels) path, organized in subfolders for NIR and RGB:
+- **COCO Format:** Compatible with YOLO models and other object detection frameworks.
+- **OpenAI Format:** Useful for vision models developed in OpenAI environments.
+- **TensorFlow Format:** For models developed in TensorFlow and Keras.
+These labels can be reused for new training or model testing.
 
-## Comparación de Modelos
-- Validación manual de resultados de tres modelos: RGB, NIR y Tree Detection de ArcGIS.
-- Construcción de matriz de confusión y cálculo de métricas para cada modelo.
+## Model Comparison
+- Manual validation of results from three models: RGB, NIR, and ArcGIS Tree Detection.
+- Construction of confusion matrix and calculation of metrics for each model.
 
-**Análisis de las gráficas y resultados:**
+**Analysis of graphs and results:**
 
-Las siguientes gráficas muestran el comportamiento de los modelos durante el entrenamiento y validación:
+The following graphs show the behavior of the models during training and validation:
 
-- **Curvas de aprendizaje:** Permiten observar el rendimiento del modelo en el conjunto de entrenamiento y validación. En el caso del modelo RGB, se observa un posible overfitting, mientras que el modelo NIR muestra un mejor comportamiento generalizado.
+- **Learning curves:** Allow observation of model performance on training and validation sets. In the case of the RGB model, possible overfitting is observed, while the NIR model shows better generalization behavior.
 
 ![LearningCurve_NIR](docs/LearningCurve_NIR.jpg)
 ![LearningCurve_RGB](docs/LearningCurve_RGB.jpg)
 
-- **Métricas de evaluación:** Se presentan los valores de precisión, recall y F1-score para cada modelo. El modelo NIR-GREEN-BLUE es el más estable y preciso para la identificación de árboles y palmas, superando al modelo RGB y al modelo Tree Detection de ArcGIS.
+- **Evaluation metrics:** Present precision, recall, and F1-score values for each model. The NIR-GREEN-BLUE model is the most stable and accurate for tree and palm identification, outperforming the RGB model and ArcGIS Tree Detection model.
 
 ![EvaluationMetrics_NIR](docs/EvaluationMetrics_NIR.jpg)
 ![EvaluationMetrics_RGB](docs/EvaluationMetrics_RGB.jpg)
 
-- **Resultados de los modelos:** Se comparan los resultados obtenidos por los modelos RGB, NIR y Tree Detection, evidenciando las ventajas de utilizar datos locales y composiciones espectrales adaptadas al entorno tropical. El modelo NIR permite identificar elementos biológicos y corrige confusiones presentes en la composición RGB.
+- **Model results:** Compare results obtained by RGB, NIR, and Tree Detection models, showing the advantages of using local data and spectral compositions adapted to the tropical environment. The NIR model allows identification of biological elements and corrects confusions present in the RGB composition.
 
 ![ModelResults_RGB_NIR](docs/ModelResults_RGB_NIR.jpg)
 ![ModelResults_TreeDetection](docs/ModelResults_TreeDetection.jpg)
 
-## Resultados y Visualización
-- Identificación de 171,592 árboles y 14,751 palmas.
-- El modelo NIR-GREEN-BLUE mostró mejor precisión (90%) para ambos tipos de vegetación.
+## Results and Visualization
+- Identification of 171,592 trees and 14,751 palms.
+- The NIR-GREEN-BLUE model showed better precision (90%) for both vegetation types.
 
-[![Mapa interactivo](mapa_init.jpg)](https://ee-millanorduzdiana.projects.earthengine.app/view/urbantreedetectioncnn)
+[![Interactive Map](mapa_init.jpg)](https://ee-millanorduzdiana.projects.earthengine.app/view/urbantreedetectioncnn)
 
-> Al hacer clic en la imagen del mapa interactivo, podrás explorar en tiempo real la ubicación de los árboles y palmas detectados, consultar estadísticas, filtrar por tipo de vegetación y analizar la distribución espacial. Esta herramienta permite una visualización dinámica y detallada de los resultados del modelo, facilitando la toma de decisiones y la gestión urbana basada en datos.
-
+> By clicking on the interactive map image, you can explore in real-time the location of detected trees and palms, consult statistics, filter by vegetation type, and analyze spatial distribution. This tool allows dynamic and detailed visualization of model results, facilitating data-driven urban management and decision-making.
 
 ---
 
-## Contacto
+## Contact
 
-Para soporte técnico, colaboración académica o implementación de procesos similares en otros entornos urbanos o forestales, por favor contacte a:
+For technical support, academic collaboration, or implementation of similar processes in other urban or forest environments, please contact:
 
 - **Diana Millan** – [millanorduzdiana@gmail.com](mailto:millanorduzdiana@gmail.com)  
 - **David Valbuena** – [dlvalbuenag@udistrital.edu.co](mailto:dlvalbuenag@udistrital.edu.co)  
@@ -88,24 +87,24 @@ Para soporte técnico, colaboración académica o implementación de procesos si
 
 ---
 
-### Derechos de uso y citación
+### Usage Rights and Citation
 
-Este repositorio contiene resultados del proyecto realizado en el marco del convenio entre la Universidad Distrital Francisco José de Caldas y la Empresa de Aseo de Cartagena (EPA Cartagena), conforme al Decreto 1980 de 2024 y la Resolución EPA-RES-00599-2024, que reglamentan el manejo, tratamiento y uso de la información geoespacial generada en el contexto del PGIRS de Cartagena.
+This repository contains results from the project carried out under the agreement between Universidad Distrital Francisco José de Caldas and Empresa de Aseo de Cartagena (EPA Cartagena), in accordance with Decree 1980 of 2024 and EPA-RES-00599-2024 Resolution, which regulate the management, treatment, and use of geospatial information generated in the context of Cartagena's PGIRS.
 
-Toda la información contenida en este repositorio puede ser consultada libremente para fines académicos, técnicos y de investigación, siempre y cuando se cite adecuadamente.
+All information contained in this repository can be freely consulted for academic, technical, and research purposes, provided it is properly cited.
 
-**Citación recomendada**:  
-Ussa, J., Valbuena, D., & Millan, D. (2025). *Identificación de árboles urbanos mediante IA para optimizar su mantenimiento y función en ciudades tropicales costeras*. Convenio Universidad Distrital - EPA Cartagena.
+**Recommended citation**:  
+Ussa, J., Valbuena, D., & Millan, D. (2025). *Urban Tree Identification using AI to Optimize Maintenance and Function in Tropical Coastal Cities*. Universidad Distrital - EPA Cartagena Agreement.
 
-Este trabajo está publicado bajo la siguiente licencia:
+This work is published under the following license:
 
-[![Licencia Creative Commons](https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es)
+[![Creative Commons License](https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en)
 
-**Licencia CC BY-NC-ND 4.0**  
-Este repositorio se encuentra bajo una Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional. Esto implica que puedes compartir el contenido (copiar y redistribuir el material en cualquier medio o formato) siempre que:
+**CC BY-NC-ND 4.0 License**  
+This repository is under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. This means you can share the content (copy and redistribute the material in any medium or format) as long as you:
 
-- Des crédito apropiado.
-- No lo utilices para fines comerciales.
-- No generes obras derivadas.
+- Give appropriate credit.
+- Do not use it for commercial purposes.
+- Do not create derivative works.
 
-Para usos distintos, debe obtenerse una autorización explícita de los autores.
+For different uses, explicit authorization from the authors must be obtained.
